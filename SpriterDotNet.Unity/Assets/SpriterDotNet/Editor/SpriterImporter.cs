@@ -100,6 +100,7 @@ namespace SpriterDotNetUnity
             }
             data.Spriter = spriter;
             data.FileEntries = LoadAssets(spriter, rootFolder).ToArray();
+            EditorUtility.SetDirty(data);
 
             AssetDatabase.SaveAssets();
 

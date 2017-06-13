@@ -72,26 +72,36 @@ namespace SpriterDotNetUnity
             Transform childTransform = childData.SpriteTransforms[index];
             Transform pivotTransform = childData.SpritePivotTransforms[index];
 
-            child.SetActive(true);
-            pivot.SetActive(true);
             SpriteRenderer renderer = renderers[index];
 
-            float ppu = sprite.pixelsPerUnit;
+            if (!float.IsNaN(info.X) && !float.IsNaN(info.Y) && !float.IsNaN(info.ScaleX) && !float.IsNaN(info.ScaleY) && !float.IsNaN(info.PivotX) && !float.IsNaN(info.PivotY))
+            {
+                child.SetActive(true);
+                pivot.SetActive(true);
 
-            renderer.sprite = sprite;
-            Vector3 size = sprite.bounds.size;
-            float spritePivotX = sprite.pivot.x / ppu / size.x;
-            float spritePivotY = sprite.pivot.y / ppu / size.y;
+                float ppu = sprite.pixelsPerUnit;
 
-            float deltaX = (spritePivotX - info.PivotX) * size.x * info.ScaleX;
-            float deltaY = (spritePivotY - info.PivotY) * size.y * info.ScaleY;
+                renderer.sprite = sprite;
+                Vector3 size = sprite.bounds.size;
+                float spritePivotX = sprite.pivot.x / ppu / size.x;
+                float spritePivotY = sprite.pivot.y / ppu / size.y;
 
-            Color c = renderer.color;
-            renderer.color = new Color(c.r, c.g, c.b, info.Alpha);
-            pivotTransform.localEulerAngles = new Vector3(0, 0, info.Angle);
-            pivotTransform.localPosition = new Vector3(info.X / ppu, info.Y / ppu, 0);
-            childTransform.localPosition = new Vector3(deltaX, deltaY, childTransform.localPosition.z);
-            childTransform.localScale = new Vector3(info.ScaleX, info.ScaleY, 1);
+                float deltaX = (spritePivotX - info.PivotX) * size.x * info.ScaleX;
+                float deltaY = (spritePivotY - info.PivotY) * size.y * info.ScaleY;
+
+                Color c = renderer.color;
+                renderer.color = new Color(c.r, c.g, c.b, info.Alpha);
+
+                var pivotRotation = new Vector3(0, 0, info.Angle);
+                var pivotLocalPos = new Vector3(info.X / ppu, info.Y / ppu, 0);
+                var spriteLocalPos = new Vector3(deltaX, deltaY, childTransform.localPosition.z);
+                var spriteLocalScale = new Vector3(info.ScaleX, info.ScaleY, 1);
+
+                pivotTransform.localEulerAngles = pivotRotation;
+                pivotTransform.localPosition = pivotLocalPos;
+                childTransform.localPosition = spriteLocalPos;
+                childTransform.localScale = spriteLocalScale;
+            }
 
             renderer.sortingLayerName = SortingLayer;
             renderer.sortingOrder = SortingOrder * renderers.Length + index;
