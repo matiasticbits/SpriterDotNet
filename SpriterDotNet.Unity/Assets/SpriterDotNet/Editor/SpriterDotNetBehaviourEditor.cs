@@ -7,6 +7,7 @@
 
 using System;
 using System.Reflection;
+using System.Linq;
 using UnityEditor;
 using UnityEditorInternal;
 
@@ -30,8 +31,9 @@ namespace SpriterDotNetUnity
 
             string[] layers = GetSortingLayerNames();
             int currentIndex = Array.IndexOf(layers, sdnb.SortingLayer);
+            
             if (currentIndex < 0)
-                currentIndex = layers.Length - 1;
+                currentIndex = layers.ToList().FindIndex(x => x == "Default");
             int choiceIndex = EditorGUILayout.Popup("Sorting Layer", currentIndex, layers);
             sdnb.SortingLayer = layers[choiceIndex];
             sdnb.SortingOrder = EditorGUILayout.IntField("Sorting Order", sdnb.SortingOrder);

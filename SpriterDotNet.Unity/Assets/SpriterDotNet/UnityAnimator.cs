@@ -104,7 +104,7 @@ namespace SpriterDotNetUnity
             }
 
             renderer.sortingLayerName = SortingLayer;
-            renderer.sortingOrder = SortingOrder * renderers.Length + index;
+            renderer.sortingOrder = SortingOrder + renderers.Length + index;
 
             ++index;
         }
