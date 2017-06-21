@@ -298,5 +298,23 @@ namespace SpriterDotNet
         {
             EventTriggered(eventName);
         }
+
+        public virtual void ApplyCharMap(string name)
+        {
+            var map = Entity.CharacterMaps.ToList().Find(x => x.Name == name);
+            if (map == null)
+            {
+                throw new Exception("CharMap not found for name: " + name);
+            }
+            SpriteProvider.PushCharMap(map);
+        }
+
+        public virtual void ClearCharMap()
+        {
+            while (SpriteProvider.CharacterMap != null)
+            {
+                SpriteProvider.PopCharMap();
+            }
+        }
     }
 }
