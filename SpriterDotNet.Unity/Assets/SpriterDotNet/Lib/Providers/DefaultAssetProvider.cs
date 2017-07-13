@@ -94,7 +94,10 @@ namespace SpriterDotNet.Providers
                 T sprite = GetAsset(map.FolderId, map.FileId);
                 if (sprite == null) continue;
 
-                CharMapValues[sprite] = new KeyValuePair<int, int>(map.TargetFolderId, map.TargetFileId);
+                if (map.FolderId != map.TargetFolderId || map.FileId != map.TargetFileId)
+                {
+                    CharMapValues[sprite] = new KeyValuePair<int, int>(map.TargetFolderId, map.TargetFileId);
+                }
             }
         }
 
