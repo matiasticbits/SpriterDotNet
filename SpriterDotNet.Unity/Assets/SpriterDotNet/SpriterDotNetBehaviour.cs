@@ -80,11 +80,11 @@ namespace SpriterDotNetUnity
 
                 if (!UseUi)
                 {
-                    Animator = new UnityAnimator(entity, ChildData, audioSource, Ppu); 
+                    Animator = new UnityAnimator(entity, ChildData, audioSource, Ppu);
                 }
                 else
                 {
-                    Animator = new UnityUiAnimator(entity, ChildData, audioSource, Ppu); 
+                    Animator = new UnityUiAnimator(entity, ChildData, audioSource, Ppu);
                 }
                 RegisterSpritesAndSounds();
 
@@ -106,6 +106,7 @@ namespace SpriterDotNetUnity
             if (animationQueue.Count > 0)
             {
                 var next = animationQueue.Dequeue();
+                Animator.Speed = 1.0f;
                 Animator.Play(next);
             }
         }
